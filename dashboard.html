@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BEYOND THE BALL Dashboard</title>
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+}
+
+header{
+text-align:center;
+margin-bottom:25px;
+}
+
+header h1{
+color:#38bdf8;
+margin-bottom:5px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
+
+.card h3{
+margin-top:0;
+color:#94a3b8;
+}
+
+.number{
+font-size:34px;
+font-weight:bold;
+color:#22c55e;
+}
+
+button{
+background:#0ea5e9;
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:10px;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.story{
+background:#1e293b;
+padding:18px;
+margin-bottom:15px;
+border-radius:15px;
+}
+
+.story h3{
+margin-top:0;
+color:#38bdf8;
+}
+
+.badge{
+display:inline-block;
+padding:4px 10px;
+background:#334155;
+border-radius:20px;
+font-size:12px;
+margin-bottom:10px;
+}
+
+img{
+width:100%;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌍 BEYOND THE BALL</h1>
+
+<p>Professional Football Newsroom Dashboard</p>
+
+</header>
+
+<div class="grid">
+
+<div class="card">
+<h3>Total News</h3>
+<div class="number" id="totalNews">0</div>
+</div>
+
+<div class="card">
+<h3>Published</h3>
+<div class="number" id="published">0</div>
+</div>
+
+<div class="card">
+<h3>Status</h3>
+<div id="status">🟢 ONLINE</div>
+</div>
+
+<div class="card">
+<h3>Last Update</h3>
+<div id="update">--</div>
+</div>
+
+</div>
+
+<button onclick="loadNews()">🔄 Refresh Newsroom</button>
+
+<div id="stories"></div>
+
+<script>
+
+async function loadNews(){
+
+try{
+
+const response=await fetch("news.json");
+const news=await response.json();
+
+document.getElementById("totalNews").textContent=news.length;
+document.getElementById("update").textContent=new Date().toLocaleString();
+
+let html="";
+
+news.forEach(article=>{
+
+html+=`
+
+<div class="story">
+
+${article.image ? `<img src="${article.image}">` : ""}
+
+<div class="badge">${article.category}</div>
+
+<h3>${article.title}</h3>
+
+<p><strong>Source:</strong> ${article.source}</p>
+
+<p>${article.caption}</p>
+
+<p><strong>Why it matters:</strong><br>${article.why}</p>
+
+<p><strong>Reel Script:</strong><br>${article.script}</p>
+
+<p>${article.hashtags}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("stories").innerHTML=html;
+
+}catch(error){
+
+document.getElementById("stories").innerHTML=
+"<h2>Error loading news.</h2>";
+
+}
+
+}
+
+loadNews();
+
+</script>
+
+</body>
+</html>

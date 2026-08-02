@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BEYOND THE BALL</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0b5cff">
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+}
+
+.header h1 {
+    color: #0b5cff;
+}
+
+.card {
+
+    background: #1c1c1c;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 10px #000;
+
+}
+
+
+.card img {
+
+    width: 100%;
+    border-radius: 10px;
+
+}
+
+
+.title {
+
+    font-size: 22px;
+    font-weight: bold;
+    color: #00aaff;
+
+}
+
+
+.category {
+
+    color: #ffd700;
+
+}
+
+
+.trusted {
+
+    color: #00ff88;
+
+}
+
+
+.info {
+
+    margin-top: 10px;
+
+}
+
+
+.loading {
+
+    text-align:center;
+    color:#aaa;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+<h1>🌍 BEYOND THE BALL</h1>
+
+<p>
+More than football. The stories behind the game.
+</p>
+
+<h2>🔥 BREAKING FOOTBALL NEWS</h2>
+
+</div>
+
+
+<div id="news">
+
+<p class="loading">
+Updating newsroom...
+</p>
+
+</div>
+
+
+
+<script>
+
+
+async function loadNews(){
+
+
+try {
+
+
+const response = await fetch("news.json");
+
+
+const news = await response.json();
+
+
+let html = "";
+
+
+news.forEach(article => {
+
+
+html += `
+
+<div class="card">
+
+
+${article.image ? 
+`<img src="${article.image}">`
+:
+""}
+
+
+
+<div class="title">
+
+🔥 ${article.title}
+
+</div>
+
+
+
+<p class="category">
+
+🏷 ${article.category || "Football News"}
+
+</p>
+
+
+
+<p class="trusted">
+
+🔵 ${article.verification || "TRUSTED"}
+
+</p>
+
+
+
+<div class="info">
+
+📰 Source:
+${article.source}
+
+
+<br><br>
+
+
+📝 ${article.caption || ""}
+
+
+<br><br>
+
+
+📊 Why it matters:
+
+<br>
+
+${article.why || ""}
+
+
+
+<br><br>
+
+
+🎬 Reel Script:
+
+<br>
+
+${article.script || ""}
+
+
+
+<br><br>
+
+
+${article.hashtags || ""}
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+});
+
+
+document.getElementById("news").innerHTML = html;
+
+
+}
+
+catch(error){
+
+
+document.getElementById("news").innerHTML =
+
+"❌ Error loading news: " + error;
+
+
+}
+
+
+}
+
+
+
+loadNews();
+
+
+
+// PWA
+
+if ("serviceWorker" in navigator) {
+
+
+navigator.serviceWorker.register(
+"service-worker.js"
+)
+
+.then(()=>{
+
+console.log(
+"BEYOND THE BALL PWA active"
+);
+
+});
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

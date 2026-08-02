@@ -1,0 +1,130 @@
+from news_collector 
+import collect_news
+from verify 
+import verify import feedparser
+
+
+def load_posted_news():
+    try:
+        with open("posted_news.txt", "r") as file:
+            return file.read().splitlines()
+    except FileNotFoundError:
+        return []
+
+
+def save_posted_news(news):
+    with open("posted_news.txt", "a") as file:
+        file.write(news + "\n")
+
+def get_news():
+
+    sources = [
+        {
+            "name": "ESPN FC",
+            "url": "https://www.espn.com/espn/rss/soccer/news"
+        },
+        {
+            "name": "Sky Sports Football",
+            "url": "https://www.skysports.com/rss/12040"
+        },
+        {
+            "name": "BBC Sport Football",
+            "url": "https://feeds.bbci.co.uk/sport/football/rss.xml"
+        },
+        {
+            "name": "FIFA",
+            "url": "https://www.fifa.com/rss/index.xml"
+        }
+    ]
+
+    articles = []
+
+    for source in sources:
+        feed = feedparser.parse(source["url"])
+
+        for item in feed.entries[:3]:
+            articles.append({
+                "title": item.title,
+                "source": source["name"]
+            })
+
+    return articles
+def is_football_news(title):
+
+    title = title.lower()
+
+    blocked = [
+        "800m",
+        "athletics",
+        "boxing",
+        "rugby",
+        "horse racing",
+        "goodwood",
+        "commonwealth games"
+    ]
+
+    for word in blocked:
+        if word in title:
+            return False
+
+
+    keywords = [
+        "football",
+        "soccer",
+        "fifa",
+        "uefa",
+        "transfer",
+        "premier league",
+        "champions league",
+        "europa league",
+        "world cup",
+        "goal",
+        "striker",
+        "midfielder",
+        "defender",
+        "goalkeeper",
+        "arsenal",
+        "chelsea",
+        "liverpool",
+        "manchester united",
+        "manchester city",
+        "barcelona",
+        "real madrid",
+        "psg"
+    ]
+
+    for word in keywords:
+        if word in title:
+            return True
+
+    return False
+    title = title.lower()
+
+    for word in keywords:
+        if word in title:
+            return True
+
+    return False
+if __name__ == "__main__":
+
+    news = collect_news()
+    posted = load_posted_news()
+
+    for article in news:
+
+        article = verify(article)
+
+        title = article["title"]
+
+        if title not in posted and is_football_news(title):
+
+            print("\n🌍 BEYOND THE BALL")
+            print("-------------------")
+
+            print(article["verification"])
+            print("📰", article["title"])
+            print("Source:", article["source"])
+            print("Link:", article["link"])
+            print()
+
+            save_posted_news(title)

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BEYOND THE BALL Archive</title>
+
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+padding:20px;
+}
+
+
+h1{
+color:#38bdf8;
+text-align:center;
+}
+
+
+.card{
+
+background:#1e293b;
+padding:20px;
+margin:15px 0;
+border-radius:15px;
+
+}
+
+
+.title{
+
+color:#38bdf8;
+font-size:22px;
+font-weight:bold;
+
+}
+
+
+.category{
+
+color:#facc15;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<h1>📚 BEYOND THE BALL ARCHIVE</h1>
+
+
+<div id="archive">
+
+Loading archive...
+
+</div>
+
+
+
+<script>
+
+
+async function loadArchive(){
+
+
+const response = await fetch("archive.json");
+
+
+const stories = await response.json();
+
+
+let html="";
+
+
+stories.reverse().forEach(article=>{
+
+
+html += `
+
+<div class="card">
+
+<div class="category">
+${article.category}
+</div>
+
+
+<div class="title">
+🔥 ${article.title}
+</div>
+
+
+<p>
+📰 ${article.source}
+</p>
+
+
+<p>
+${article.caption}
+</p>
+
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("archive")
+.innerHTML=html;
+
+
+}
+
+
+loadArchive();
+
+
+</script>
+
+
+</body>
+
+</html>
