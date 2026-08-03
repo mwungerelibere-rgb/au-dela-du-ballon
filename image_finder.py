@@ -3,40 +3,43 @@ def find_image(title):
     title = title.lower()
 
 
-    # Players
-    if "welbeck" in title:
-        return "https://upload.wikimedia.org/wikipedia/commons/9/9c/Danny_Welbeck_2019.jpg"
+    football_image = "https://images.unsplash.com/photo-1579952363873-27d3bfad9b0c"
 
 
-    if "mbeumo" in title:
-        return "https://upload.wikimedia.org/wikipedia/commons/4/4f/Bryan_Mbeumo_2024.jpg"
-
-
-    if "infantino" in title:
-        return "https://upload.wikimedia.org/wikipedia/commons/1/1d/Gianni_Infantino_2023.jpg"
-
-
-    # Clubs
-    if "real madrid" in title or "madrid" in title:
-        return "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
-
-
-    if "chelsea" in title:
-        return "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg"
-
-
-    if "man utd" in title or "manchester united" in title:
-        return "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg"
-
-
-    # Competitions
     if "fifa" in title or "world cup" in title:
-        return "https://upload.wikimedia.org/wikipedia/commons/0/03/FIFA_logo.svg"
+        return football_image
 
 
     if "uefa" in title or "champions league" in title:
-        return "https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League_logo_2.svg"
+        return football_image
 
 
-    # Default
-    return "https://upload.wikimedia.org/wikipedia/commons/6/6e/Football_iu_1996.jpg"
+    if "real madrid" in title or "madrid" in title:
+        return football_image
+
+
+    if "chelsea" in title:
+        return football_image
+
+
+    if "liverpool" in title:
+        return football_image
+
+
+    if "arsenal" in title:
+        return football_image
+
+
+    if "manchester" in title:
+        return football_image
+
+
+    if "salah" in title:
+        return football_image
+
+
+    if "vinicius" in title or "viní" in title:
+        return football_image
+
+
+    return football_image
