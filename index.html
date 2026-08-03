@@ -1,30 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b5cff">
+
+<title>BTB AU-DELÀ DU BALLON LIBERE</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+}
+
+header{
+text-align:center;
+padding:25px;
+background:#020617;
+}
+
+header h1{
+color:#38bdf8;
+}
+
+nav{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+padding:15px;
+background:#1e293b;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+.search{
+text-align:center;
+padding:20px;
+}
+
+input{
+width:80%;
+padding:12px;
+border-radius:10px;
+border:0;
+}
+
+.card{
+background:#1e293b;
+margin:20px;
+padding:20px;
+border-radius:15px;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+.title{
+color:#38bdf8;
+font-size:22px;
+font-weight:bold;
+}
+
+.category{
+color:#facc15;
+}
+
+.error{
+color:#f87171;
+padding:20px;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#020617;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+
+<h1>🌍 BTB AU-DELÀ DU BALLON LIBERE</h1>
+
+<p>More than football. The stories behind the game.</p>
+
+</header>
+
+
+<nav>
+
+<a href="index.html">🏠 Home</a>
+<a href="index.html">🔥 Breaking</a>
+<a href="index.html">🔄 Transfers</a>
+<a href="index.html">⚽ Matches</a>
+<a href="index.html">🌍 FIFA / UEFA</a>
+<a href="archive.html">📚 Archive</a>
+<a href="dashboard.html">📊 Dashboard</a>
+
+</nav>
+
+
+<div class="search">
+
+<input id="search"
+placeholder="Search football news..."
+onkeyup="searchNews()">
+
+</div>
+
+
+<h2 style="padding:20px">
+🔥 Latest Football News
+</h2>
+
+
+<div id="news">
+Loading news...
+</div>
+
+
+<footer>
+© BTB AU-DELÀ DU BALLON LIBERE
+</footer>
+
+
+<script>
+
+let allNews=[];
+
+
+async function loadNews(){
+
+try{
+
+let response = await fetch("news.json?v="+Date.now());
+
+if(!response.ok){
+throw new Error("news.json not found");
+}
+
+allNews = await response.json();
+
+displayNews(allNews);
+
+}
+
+catch(error){
+
+document.getElementById("news").innerHTML=
+`
+<div class="error">
+❌ Error loading news
+<br><br>
+${error}
+</div>
+`;
+
+}
+
+}
+
+
+
 function displayNews(news){
 
-let html = "";
+let html="";
 
 
-news.forEach(article => {
+news.forEach(article=>{
 
 html += `
 
 <div class="card">
 
-${
-article.image
-?
-`
-<img 
-src="${article.image}" 
+
+<img
+src="${article.image || 'images/default.jpg'}"
 alt="football image"
-onerror="this.style.display='none'">
-`
-:
-`
-<div style="font-size:80px;text-align:center;">
-⚽
-</div>
-`
-}
+onerror="this.src='images/default.jpg'">
 
 
 <div class="category">
@@ -71,6 +242,51 @@ ${article.hashtags || ""}
 });
 
 
-document.getElementById("news").innerHTML = html;
+document.getElementById("news").innerHTML=html;
 
 }
+
+
+
+
+function searchNews(){
+
+let value=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+
+let filtered=allNews.filter(article=>
+
+(article.title || "")
+.toLowerCase()
+.includes(value)
+
+);
+
+
+displayNews(filtered);
+
+}
+
+
+
+
+loadNews();
+
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js")
+.then(()=>console.log("PWA Ready"));
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
