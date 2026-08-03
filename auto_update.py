@@ -11,8 +11,15 @@ def update_news():
 
 
     try:
+
+        # Collect and process news
         subprocess.run(
             ["python", "beyond_agent.py"]
+        )
+
+        # Export new data to news.json
+        subprocess.run(
+            ["python", "export_news.py"]
         )
 
         print("✅ Update completed")
@@ -27,8 +34,6 @@ while True:
 
     update_news()
 
-
     print("⏳ Waiting 1 hour for next update...")
-
 
     time.sleep(3600)

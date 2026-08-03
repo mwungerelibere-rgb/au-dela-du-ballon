@@ -1,7 +1,7 @@
 {
   "name": "AU-DELÀ DU BALLON",
   "short_name": "BTB",
-  "description": "Bien plus que du football. Les histoires qui se cachent derrière ce sport. Créé par Libere.",
+  "description": "Bien plus que du football. Les histoires qui se cachent derrière ce sport.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#020617",

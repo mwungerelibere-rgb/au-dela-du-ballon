@@ -1,4 +1,5 @@
 import json
+import os
 
 
 def export_story(article, score):
@@ -12,13 +13,23 @@ def export_story(article, score):
         "priority": score,
         "category": article.get("category", ""),
         "image": article.get("image", ""),
-
-        # Use the values created by story_writer.py
         "caption": article.get("caption", ""),
         "why": article.get("why", ""),
         "script": article.get("script", ""),
         "hashtags": article.get("hashtags", "")
     }
 
+    news = []
+
+    if os.path.exists("news.json"):
+        try:
+            with open("news.json", "r", encoding="utf-8") as f:
+                news = json.load(f)
+        except Exception:
+            news = []
+
+    if not any(item.get("title") == data["title"] for item in news):
+        news.insert(0, data)
+
     with open("news.json", "w", encoding="utf-8") as f:
-        json.dump([data], f, indent=4, ensure_ascii=False)
+        json.dump(news, f, indent=4, ensure_ascii=False)
